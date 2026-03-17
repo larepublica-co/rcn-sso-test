@@ -1,51 +1,5 @@
-import { UserManager, WebStorageStateStore, Log } from "oidc-client-ts";
+import { UserManager, WebStorageStateStore } from "oidc-client-ts";
 
-export interface AuthLogEntry {
-  type: "debug" | "info" | "warn" | "error";
-  message: string;
-  timestamp: string;
-}
-export const authLogs: AuthLogEntry[] = [];
-const logHandler = {
-  debug: (...args: any[]) => {
-    const msg = args.map(String).join(" ").trimStart();
-    authLogs.push({
-      type: "debug",
-      message: msg,
-      timestamp: new Date().toISOString(),
-    });
-    console.debug(...args);
-  },
-  info: (...args: any[]) => {
-    const msg = args.map(String).join(" ").trimStart();
-    authLogs.push({
-      type: "info",
-      message: msg,
-      timestamp: new Date().toISOString(),
-    });
-    console.info(...args);
-  },
-  warn: (...args: any[]) => {
-    const msg = args.map(String).join(" ").trim();
-    authLogs.push({
-      type: "warn",
-      message: msg,
-      timestamp: new Date().toISOString(),
-    });
-    console.warn(...args);
-  },
-  error: (...args: any[]) => {
-    const msg = args.map(String).join(" ").trim();
-    authLogs.push({
-      type: "error",
-      message: msg,
-      timestamp: new Date().toISOString(),
-    });
-    console.error(...args);
-  },
-};
-Log.setLogger(logHandler);
-Log.setLevel(Log.DEBUG);
 export const userManager = new UserManager({
   authority: import.meta.env.VITE_OIDC_AUTHORITY,
   client_id: import.meta.env.VITE_OIDC_CLIENT_ID,
